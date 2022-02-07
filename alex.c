@@ -20,7 +20,7 @@ char *alex_ident(void) {
   return ident;
 }
 
-int alex_getLN() {
+int alex_getLN(void) {
   return ln;
 }
 
@@ -41,7 +41,7 @@ int isKeyword(char *ident) {
   return 0;
 }
 
-int skip_number() {
+int skip_number(void) {
   int d;
 
   while ((isdigit( d = fgetc(ci) ) || d == '.')) {
@@ -71,8 +71,7 @@ void case_alpha(int c) {
 
 }
 
-void in_comment_1() { 
-//czytaj komentarz /* */
+void in_comment_1(void) { 
   int c, d;
 
   c = fgetc(ci);
@@ -83,8 +82,7 @@ void in_comment_1() {
     d = fgetc(ci);
   }
 }
-void in_comment_2() { 
-//czytaj komentarz //
+void in_comment_2(void) { 
   int c;
 
   while ((c = fgetc(ci)) != '\n')  {
@@ -92,14 +90,14 @@ void in_comment_2() {
   }
 }
 
-void skip_comment () { // usuwanie komentarzy
+void skip_comment () {
   int d;
 
-  if ((d = fgetc(ci)) == '*') { // poczatek komentarza
+  if ((d = fgetc(ci)) == '*') {
     in_comment_1();
   }
 
-  else if (d == '/')  { // drugi znak "/"
+  else if (d == '/')  {
     in_comment_2();
   }
 }
@@ -109,12 +107,10 @@ lexem_t alex_nextLexem(void) {
 
   while ((c = fgetc(ci)) != EOF) {
     if (c == '\n') {
-    // jak znajdziemy znak nowego wiersza
       ln++;
     }
 
     else if (isspace(c)) {
-    // sprawdza czy coś jest znakiem białym i wyklucza się z pierwszym warunkiem
       continue;
     }
 
@@ -135,25 +131,21 @@ lexem_t alex_nextLexem(void) {
     }
 
     else if (isalpha(c)) {
-    // coś jest literą
       case_alpha(c);
       return isKeyword(ident) ? OTHER : IDENT;
     }
 
     else if (c == '"') { 
-    // coś jest napisem / stringiem
       case_quote(c);
       return c == EOF ? EOFILE : OTHER;
     }
 
     else if (c == '/') { 
-      /* moze byc komentarz */
       skip_comment(c);
       return c == EOF ? EOFILE : OTHER;
     }
 
     if (isdigit(c) || c == '.') {
-    // to liczba
       c = skip_number();
       return c == EOF ? EOFILE : OTHER;
     }
