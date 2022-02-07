@@ -90,7 +90,7 @@ void in_comment_2(void) {
   }
 }
 
-void skip_comment () {
+void skip_comment (void) {
   int d;
 
   if ((d = fgetc(ci)) == '*') {
@@ -141,7 +141,7 @@ lexem_t alex_nextLexem(void) {
     }
 
     else if (c == '/') { 
-      skip_comment(c);
+      skip_comment();
       return c == EOF ? EOFILE : OTHER;
     }
 
