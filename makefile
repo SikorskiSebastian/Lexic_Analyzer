@@ -1,34 +1,37 @@
 FLAGS = -Wall -pedantic -Wextra
 CCC = cc -c
 CCO = cc -o
-DEL = rm *.o
+MV = mv *.o bin/
 
 analize: main.o alex.o fun_stack.o parser.o store.o fun_main.o
-	$(CCO) analize main.o fun_main.o alex.o fun_stack.o parser.o store.o
-	$(DEL)
+	$(CCO) $@ $^
+	$(MV)
 
-main.o: main.c parser.h
-	$(CCC) main.c $(FLAGS)
-fun_main.o: fun_main.c fun_main.h
-	$(CCC) fun_main.c $(FLAGS)
-store.o: store.c store.h
-	$(CCC) store.c $(FLAGS)
-alex.o: alex.c alex.h
-	$(CCC) alex.c $(FLAGS)
-parser.o: parser.c parser.h
-	$(CCC) parser.c $(FLAGS)
+main.o: src/main.c src/parser.h
+	$(CCC) $< $(FLAGS)
+	-mkdir bin
+fun_main.o: src/fun_main.c src/fun_main.h
+	$(CCC) $< $(FLAGS)
+store.o: src/store.c src/store.h
+	$(CCC) $< $(FLAGS)
+alex.o: src/alex.c src/alex.h
+	$(CCC) $< $(FLAGS)
+parser.o: src/parser.c src/parser.h
+	$(CCC) $< $(FLAGS)
 
 test: fun_stack.o test_main.o tests.o
-	$(CCO) test fun_stack.o tests.o test_main.o
+	$(CCO) $@ $^
+	$(MV)
 	./test
-	$(DEL) test
 
-tests.o: tests.c tests.h fun_stack.h
-	$(CCC) tests.c $(FLAGS)
-test_main.o: test_main.c tests.h
-	$(CCC) test_main.c $(FLAGS)
-fun_stack.o: fun_stack.c fun_stack.h
-	$(CCC) fun_stack.c $(FLAGS)
+tests.o: src/tests.c src/tests.h src/fun_stack.h
+	$(CCC) $< $(FLAGS)
+test_main.o: src/test_main.c src/tests.h
+	$(CCC) $< $(FLAGS)
+fun_stack.o: src/fun_stack.c src/fun_stack.h
+	$(CCC) $< $(FLAGS)
+
+.PHONY: clean
 
 clean:
-	rm analize
+	rm bin/*.o analize test
