@@ -2,6 +2,8 @@ FLAGS = -Wall -pedantic -Wextra
 CCC = cc -c
 CCO = cc -o
 MV = mv *.o bin/
+MD = -mkdir bin
+DEL = -rm -r bin/ analize test
 
 analize: main.o alex.o fun_stack.o parser.o store.o fun_main.o
 	$(CCO) $@ $^
@@ -9,7 +11,7 @@ analize: main.o alex.o fun_stack.o parser.o store.o fun_main.o
 
 main.o: src/main.c src/parser.h
 	$(CCC) $< $(FLAGS)
-	-mkdir bin
+	$(MD)
 fun_main.o: src/fun_main.c src/fun_main.h
 	$(CCC) $< $(FLAGS)
 store.o: src/store.c src/store.h
@@ -34,4 +36,4 @@ fun_stack.o: src/fun_stack.c src/fun_stack.h
 .PHONY: clean
 
 clean:
-	rm bin/*.o analize test
+	$(DEL)
