@@ -1,10 +1,10 @@
-# Program Alex
-Program tworzony w ramach zajęć laboratoryjnych z języków i metod programowania na kierunku Informatyka Stosowana w zespołach dwu-osobowych. Celem zajęć było napisanie programu analizującego składnię programu podanego jako argument wywołania. Program stanowi upload repozytorium ze stanu końcowego zadania.
+# Alex
+Program made during laboratory classes of "Języki i Metody Programowania 1" during first term of Applied Computer Science. Our main goal was to design program analysing source files given as programs call arguments. Program stands as upload of final version of the project. 
 
 # Kompilacja programu
-Kompilacja odbywa się poprzez wywołanie:\
+Compilation is made with command:\
 ```make```\
-Natomiast usunięcie plików po zakończeniu korzystania z programu odbywa się poprzez wykorzystanie komendy:\
+To delete working files made during compilation:\
 ```make clean```\
-Można również kompilować testy poprzez:\
+To compile tests use:\
 ```make test``` 
